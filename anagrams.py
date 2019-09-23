@@ -1,6 +1,8 @@
 import load_dictionary
+import sys
+from collections import Counter
 
-word_list = load_dictionary.load('/usr/share/dict/words')
+WORD_LIST = load_dictionary.load('/usr/share/dict/words')
 user_name = input('Enter your name:  ').lower()
 
 phrase = []
@@ -11,7 +13,18 @@ words_found = None
 
 
 def getWordsInName(name):
-    return 'temp'
+    """ Returns an array of all anagrams for a given word from the dictionary """
+    name_letter_map = Counter(name)
+    anagrams = []
+    for word in WORD_LIST:
+        test = ''
+        word_letter_map = Counter(word.lower())
+        for letter in word:
+            if word_letter_map[letter] <= name_letter_map[letter]:
+                test += letter
+        if Counter(test) == word_letter_map:
+            anagrams.append(word)
+    return anagrams
 
 
 def displayCurrentStatus():
